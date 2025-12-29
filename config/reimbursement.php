@@ -112,6 +112,30 @@ return [
 			'price' => [30000],
 			'type' => ['food'],
 		],
+		[
+			'id' => '9360000801778234138',
+			'name' => 'Masakan SEHATi',
+			'price' => [22000],
+			'type' => ['food'],
+		],
+		[
+			'id' => '9360000801862604600',
+			'name' => 'SOTO MIE KANG DOMANG',
+			'price' => [20000],
+			'type' => ['food'],
+		],
+		[
+			'id' => '9360000801284079019',
+			'name' => 'JUS ANJANI PAMUNGKAS',
+			'price' => [15000],
+			'type' => ['snack'],
+		],
+		[
+			'id' => '9360091435401764656',
+			'name' => 'Cinto Minang, Kebon Sirih',
+			'price' => [18000, 22000, 23000, 25000],
+			'type' => ['food'],
+		],
 	],
 	'transportation' => [
 		[
