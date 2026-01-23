@@ -185,6 +185,22 @@
 
 	<div class="max-w-4xl mx-auto bg-white p-6 break-before-page">
 		<ul>
+			@if (!empty($attachments))
+				<li class="my-3">{{ Carbon\Carbon::createFromFormat('Y-m-d', $firstDate)->format('j F Y') . ' - ' . Carbon\Carbon::createFromFormat('Y-m-d', $lastDate)->format('j F Y') }}</li>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+					@foreach ($attachments as $file)
+						<div class="">
+							<img
+								src="{{ asset('storage/' . $file['path']) }}"
+								alt="Parkir Daily Image"
+								class="w-full object-cover"
+							>
+						</div>
+					@endforeach
+				</div>
+			@endif
+
 			@foreach ($table_bill as $date => $bills)
 				<div class="break-inside-avoid">
 					<li class="my-3">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('j F Y') }}</li>
