@@ -4,6 +4,14 @@ use App\Http\Controllers\Generate;
 use App\Services\GenerateCombination;
 use Illuminate\Support\Facades\Route;
 
+Route::get('test', function() {
+	return view('test');
+});
+
+Route::get('custom', function() {
+	return view('custom.2026-02-18');
+});
+
 Route::get('/', function () {
 	return view('home');
 })->name('home');

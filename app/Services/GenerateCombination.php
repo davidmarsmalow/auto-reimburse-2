@@ -20,6 +20,7 @@ class GenerateCombination
 					$result[] = [
 						'id' => $item['id'],
 						'name' => $item['name'],
+						'acquirer' => $item['acquirer'],
 						'type' => $type,
 						'price' => $price,
 					];

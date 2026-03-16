@@ -17,7 +17,7 @@
 
 <body class="text-[8px]">
 
-	<div class="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-md border rounded-none">
+	<div class="max-w-4xl mx-auto bg-white p-6 sm:p-8 shadow-md border rounded-none">
 		<div class="flex justify-between">
 			<div class="mb-6 w-full">
 				<h1 class="text-[14px] font-bold underline">Reimbursement Form Project</h1>
@@ -201,68 +201,213 @@
 				</div>
 			@endif
 
+			@php
+				function randomString($length)
+				{
+					$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+					$result = '';
+					$max = strlen($characters) - 1;
+
+					for ($i = 0; $i < $length; $i++) {
+						$result .= $characters[random_int(0, $max)];
+					}
+
+					return $result;
+				}
+
+				function generateTransactionId()
+				{
+					$date = date('dmy');
+
+					$part1 = randomString(4);
+					$part2 = randomString(6);
+
+					return "-$part1-$part2";
+				}
+
+				function generateReferenceNo($length = 12)
+				{
+					$characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+					$result = '';
+					$max = strlen($characters) - 1;
+
+					for ($i = 0; $i < $length; $i++) {
+						$result .= $characters[random_int(0, $max)];
+					}
+
+					return $result;
+				}
+			@endphp
+
 			@foreach ($table_bill as $date => $bills)
 				<div class="break-inside-avoid">
 					<li class="my-3">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('j F Y') }}</li>
-					<div class="grid grid-cols-2 gap-3">
+					<div class="flex flex-wrap gap-3 select-none">
 						@foreach ($bills as $bill)
 							@if (in_array($bill['type'], ['food', 'drink', 'snack', 'dinner']))
-								<div class="bg-white w-[300px] mx-auto">
-									<div class="mb-6 text-center">
-										<img
-											src="/img/jago.png"
-											alt="Jago Logo"
-											class="w-[80px] mx-auto mb-12 mt-4"
-										>
-									</div>
+								@if (config('reimbursement.receipt') == 'detail')
+									<div class="w-[300px] break-inside-avoid" style="zoom:0.6">
+										<!-- Logo -->
+										<div class="text-center mb-4">
+											<img class="w-[90px] mx-auto" src="/img/jago.png" alt="Jago Logo">
+										</div>
 
-									<div class="mt-4 mb-1">
-										<h1 class="text-[10px] font-bold mb-1">Hello David,</h1>
-										<p class="text-[9px]">
-											Thank you for trusting Jago! You have made a payment, and here are the details:
-										</p>
-									</div>
+										<!-- Receipt Card -->
+										<div class="relative rounded-xl border border-gray-200 shadow-md p-4 bg-white overflow-hidden">
+											<!-- Background -->
+											<div class="absolute inset-0 opacity-50 pointer-events-none" style="
+													background-image: url('/img/jago-backdrop.png');
+													background-size: 650px;
+													background-repeat: repeat;
+												"></div>
 
-									<div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
-										<div class="">
-											<h2 class="text-[6px] text-gray-400 uppercase mb-3">Transaction Summary</h2>
+											<div class="relative z-10">
+												<!-- Header -->
+												<div class="flex justify-between items-start mb-3">
+													<div>
+														<h1 class="text-[15px] font-bold leading-tight">
+															{{ $bill['name'] }}
+														</h1>
+														<p class="text-gray-400 text-[11px]">JAKARTA PUSAT</p>
+													</div>
 
-											<div class="grid grid-cols-1 gap-y-1">
-												<div class="flex items-center">
-													<span class="text-gray-600 w-20">From</span>
-													<span class="font-bold text-gray-800">DC • 100395736072</span>
+													<div class="flex items-center justify-center bg-amber-500 text-white rounded-full font-bold" style="width:36px;height:36px;font-size:14px;">
+														{{ collect(explode(' ', $bill['name']))->map(fn($w) => strtoupper($w[0]))->only([0, count(explode(' ', $bill['name']))-1])->implode('') }}
+													</div>
 												</div>
-												<div class="flex items-center">
-													<span class="text-gray-600 w-20">To</span>
-													<span class="font-bold text-gray-800">{{ $bill['name'] }}</span>
+
+												<hr class="border-dashed border-gray-300 my-1">
+
+												<!-- Amount -->
+												<div class="flex justify-between items-center mb-3">
+													<div class="text-[20px] font-extrabold">Rp{{ number_format($bill['price'], 0, ',', '.') }}</div>
 												</div>
-												<div class="flex items-center">
-													<span class="text-gray-600 w-20"></span>
-													<span class="font-bold text-gray-700">{{ $bill['id'] }}</span>
+
+												<!-- Details -->
+												<div class="space-y-2 text-gray-700 text-[11px]">
+													<div class="flex justify-between items-center mb-3">
+														<div>
+															<p class="text-gray-400">Transaction ID</p>
+															<p class="font-medium">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('ymd') . generateTransactionId() }}</p>
+														</div>
+														<span class="px-2 py-1 rounded-full bg-green-100 text-green-600 font-semibold text-[10px]">
+															Success
+														</span>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Account Source</p>
+														<p class="font-medium">
+															KRISTOFORUS DAVID RENALDY<br>
+															Jago 100395736072
+														</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Source Of Fund</p>
+														<p class="font-medium">100395736072</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Transaction date & time</p>
+														<p class="font-medium">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d M Y, H:i') }} WIB</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Acquirer Name</p>
+														<p class="font-medium">{{ $bill['acquirer'] }}</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Fee</p>
+														<p class="font-medium">Free</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Merchant PAN</p>
+														<p class="font-medium">9360000801168886588</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Customer PAN</p>
+														<p class="font-medium">{{ $bill['id'] }}</p>
+													</div>
+
+													<div>
+														<p class="text-gray-400">Reference Number</p>
+														<p class="font-medium">{{ generateReferenceNo() }}</p>
+													</div>
 												</div>
-												<div class="flex items-center mt-2">
-													<span class="text-gray-600 w-20">Amount</span>
-													<span class="font-bold text-gray-900">Rp{{ number_format($bill['price'], 0, ',', '.') }}</span>
-												</div>
-												<div class="flex items-center">
-													<span class="text-gray-600 w-20">Transaction Date</span>
-													<span
-														class="font-bold text-gray-700">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d F Y') }}
-														@if (in_array($bill['type'], ['food', 'drink', 'snack']))
-															{{ random_int(11, 14) }}:{{ str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT) }} WIB
-														@elseif ($bill['type'] === 'dinner')
-															{{ random_int(18, 21) }}:{{ str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT) }} WIB
-														@endif
-													</span>
+
+												<hr class="border-dashed border-gray-300 mt-4 mb-3">
+
+												<!-- Footer -->
+												<div class="text-center text-gray-500 text-[10px] my-1">
+													<p>This receipt is legitimate proof of transaction</p>
+													<p class="text-gray-700 my-1">Have a question?</p>
+													<span class="font-bold">Ask Tanya Jago 24/7</span>
 												</div>
 											</div>
 										</div>
+									</div>
+								@else
+									<div class="bg-white w-[300px] mx-auto">
+										<div class="mb-6 text-center">
+											<img
+												src="/img/jago.png"
+												alt="Jago Logo"
+												class="w-[80px] mx-auto mb-12 mt-4"
+											>
+										</div>
 
-										<div class="">
-											<img src="/img/jago_illustration.png" class="w-[65px] h-[65px] rounded-lg object-contain">
+										<div class="mt-4 mb-1">
+											<h1 class="text-[10px] font-bold mb-1">Hello David,</h1>
+											<p class="text-[9px]">
+												Thank you for trusting Jago! You have made a payment, and here are the details:
+											</p>
+										</div>
+
+										<div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+											<div class="">
+												<h2 class="text-[6px] text-gray-400 uppercase mb-3">Transaction Summary</h2>
+
+												<div class="grid grid-cols-1 gap-y-1">
+													<div class="flex items-center">
+														<span class="text-gray-600 w-20">From</span>
+														<span class="font-bold text-gray-800">DC • 100395736072</span>
+													</div>
+													<div class="flex items-center">
+														<span class="text-gray-600 w-20">To</span>
+														<span class="font-bold text-gray-800">{{ $bill['name'] }}</span>
+													</div>
+													<div class="flex items-center">
+														<span class="text-gray-600 w-20"></span>
+														<span class="font-bold text-gray-700">{{ $bill['id'] }}</span>
+													</div>
+													<div class="flex items-center mt-2">
+														<span class="text-gray-600 w-20">Amount</span>
+														<span class="font-bold text-gray-900">Rp{{ number_format($bill['price'], 0, ',', '.') }}</span>
+													</div>
+													<div class="flex items-center">
+														<span class="text-gray-600 w-20">Transaction Date</span>
+														<span
+															class="font-bold text-gray-700">{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d F Y') }}
+															@if (in_array($bill['type'], ['food', 'drink', 'snack']))
+																{{ random_int(11, 14) }}:{{ str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT) }} WIB
+															@elseif ($bill['type'] === 'dinner')
+																{{ random_int(18, 21) }}:{{ str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT) }} WIB
+															@endif
+														</span>
+													</div>
+												</div>
+											</div>
+
+											<div class="">
+												<img src="/img/jago_illustration.png" class="w-[65px] h-[65px] rounded-lg object-contain">
+											</div>
 										</div>
 									</div>
-								</div>
+								@endif
 							@elseif ($bill['type'] === 'Bensin')
 								<div class="p-2 inline-block bg-[#f8f9fa]">
 									<div class="min-w-[300px] bg-white rounded-[12px] shadow p-3 my-3 mx-1 font-inter">
