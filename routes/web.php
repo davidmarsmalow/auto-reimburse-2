@@ -9,7 +9,7 @@ Route::get('test', function() {
 });
 
 Route::get('custom', function() {
-	return view('custom.2026-03-29');
+	return view('custom.2026-04-25');
 });
 
 Route::get('/', function () {

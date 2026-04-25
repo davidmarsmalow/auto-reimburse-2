@@ -37,13 +37,13 @@
                 <div class="flex justify-between items-start mb-3">
                     <div>
                         <h1 class="text-[15px] font-bold leading-tight">
-                            Pempek Palembang Gajahmada
+                            Cinto Minang, Kebon Sirih
                         </h1>
-                        <p class="text-gray-400 text-[11px]">SEMARANG</p>
+                        <p class="text-gray-400 text-[11px]">JAKARTA PUSAT</p>
                     </div>
 
                     <div class="flex items-center justify-center bg-amber-500 text-white rounded-full font-bold" style="width:36px;height:36px;font-size:14px;">
-                        PG
+                        CS
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
 
                 <!-- Amount -->
                 <div class="flex justify-between items-center mb-3">
-                    <div class="text-[20px] font-extrabold">Rp14.000</div>
+                    <div class="text-[20px] font-extrabold">Rp25.000</div>
                 </div>
 
                 <!-- Details -->
@@ -59,7 +59,7 @@
                     <div class="flex justify-between items-center mb-3">
                         <div>
                             <p class="text-gray-400">Transaction ID</p>
-                            <p class="font-medium">260220-YLUU-Z9H8KE</p>
+                            <p class="font-medium">260119-6Q6R-H4Y79V</p>
                         </div>
                         <span class="px-2 py-1 rounded-full bg-green-100 text-green-600 font-semibold text-[10px]">
                             Success
@@ -81,12 +81,12 @@
 
                     <div>
                         <p class="text-gray-400">Transaction date & time</p>
-                        <p class="font-medium">20 Feb 2026, 19:38 WIB</p>
+                        <p class="font-medium">19 Jan 2026, 13:05 WIB</p>
                     </div>
 
                     <div>
                         <p class="text-gray-400">Acquirer Name</p>
-                        <p class="font-medium">GoPay</p>
+                        <p class="font-medium">Bank Mandiri</p>
                     </div>
 
                     <div>
@@ -96,7 +96,7 @@
 
                     <div>
                         <p class="text-gray-400">Merchant PAN</p>
-                        <p class="font-medium">9360091430425197835</p>
+                        <p class="font-medium">9360091435401764656</p>
                     </div>
 
                     <div>
@@ -106,7 +106,7 @@
 
                     <div>
                         <p class="text-gray-400">Reference Number</p>
-                        <p class="font-medium">1lx11et33267</p>
+                        <p class="font-medium">3dveq3lno3oy</p>
                     </div>
                 </div>
 
